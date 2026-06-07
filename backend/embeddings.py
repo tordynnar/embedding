@@ -1,24 +1,22 @@
-import httpx
 import numpy as np
+from openai import OpenAI
 
 OLLAMA_URL = "http://localhost:11434"
 EMBED_MODEL = "nomic-embed-text:v1.5"
 
+_client = OpenAI(base_url=f"{OLLAMA_URL}/v1", api_key="ollama")
+
 
 def embed(text: str) -> np.ndarray:
-    r = httpx.post(
-        f"{OLLAMA_URL}/api/embeddings",
-        json={"model": EMBED_MODEL, "prompt": text},
-        timeout=30.0,
-    )
-    r.raise_for_status()
-    v = np.array(r.json()["embedding"], dtype=np.float32)
-    n = np.linalg.norm(v)
-    return v / n if n > 0 else v
+    return embed_batch([text])[0]
 
 
 def embed_batch(texts: list[str]) -> np.ndarray:
-    return np.stack([embed(t) for t in texts])
+    r = _client.embeddings.create(model=EMBED_MODEL, input=texts)
+    arr = np.array([d.embedding for d in r.data], dtype=np.float32)
+    norms = np.linalg.norm(arr, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    return arr / norms
 
 
 def cosine(a: np.ndarray, b: np.ndarray) -> float:
