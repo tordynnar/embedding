@@ -1,0 +1,208 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+}
+.sub {
+  margin: 0 0 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+.sub code {
+  background: #eee;
+  padding: 0 0.3em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1.5rem;
+}
+nav button, .k-row button {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #555;
+}
+nav button.active {
+  color: #1a1a1a;
+  border-bottom-color: #2563eb;
+  font-weight: 600;
+}
+
+.hint {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+.hint code {
+  background: #eee;
+  padding: 0 0.3em;
+  border-radius: 3px;
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+input[type="text"], textarea {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+  background: white;
+}
+textarea { resize: vertical; }
+
+button[type="submit"], .classify-form button {
+  background: #2563eb;
+  color: white;
+  border: 0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+button[type="submit"]:disabled { background: #9bb6ed; cursor: wait; }
+
+.doc-row {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+}
+.doc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.doc-title { font-weight: 600; }
+.score {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.doc-text {
+  margin: 0.4rem 0 0;
+  color: #444;
+  font-size: 0.92rem;
+}
+
+.k-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+.k-row label { color: #666; margin-right: 0.25rem; }
+.k-row button.active {
+  background: #2563eb;
+  color: white;
+  border-radius: 4px;
+  border-bottom-color: transparent;
+}
+
+.cluster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.cluster-card {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+.cluster-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+.cluster-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+  color: #333;
+}
+.cluster-card li { margin-bottom: 0.15rem; }
+
+.section-h {
+  font-size: 1.1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.classify-form {
+  flex-direction: column;
+  align-items: stretch;
+}
+.classify-form button { align-self: flex-start; }
+
+.classify-result {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  font-weight: 600;
+}
+.sim-bars { margin-top: 0.75rem; }
+.sim-row {
+  display: grid;
+  grid-template-columns: 12rem 1fr 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.88rem;
+}
+.sim-label { color: #444; }
+.sim-bar-bg {
+  background: #f1f5f9;
+  height: 0.6rem;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sim-bar-fg {
+  background: #60a5fa;
+  height: 100%;
+}
+.sim-value {
+  color: #555;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+}
