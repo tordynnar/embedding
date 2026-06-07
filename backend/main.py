@@ -15,7 +15,7 @@ state: dict = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     texts = [f"{d['title']}. {d['text']}" for d in DOCS]
-    state["doc_embeddings"] = embed_batch(texts)
+    state["doc_embeddings"] = await embed_batch(texts)
     state["cluster_cache"] = ClusterCache()
     yield
 
@@ -45,10 +45,10 @@ def list_docs():
 
 
 @app.post("/api/search")
-def search(req: SearchRequest):
+async def search(req: SearchRequest):
     if not req.query.strip():
         raise HTTPException(400, "query is empty")
-    q = embed(req.query)
+    q = await embed(req.query)
     sims = state["doc_embeddings"] @ q
     order = np.argsort(sims)[::-1][: req.top_k]
     results = [
@@ -59,22 +59,22 @@ def search(req: SearchRequest):
 
 
 @app.get("/api/clusters")
-def clusters(k: int = 5):
+async def clusters(k: int = 5):
     if k < 2 or k > len(DOCS) - 1:
         raise HTTPException(400, "k out of range")
-    result = state["cluster_cache"].get(state["doc_embeddings"], DOCS, k)
+    result = await state["cluster_cache"].get(state["doc_embeddings"], DOCS, k)
     return {"k": k, "clusters": result["clusters"]}
 
 
 @app.post("/api/classify")
-def classify(req: ClassifyRequest):
+async def classify(req: ClassifyRequest):
     if not req.text.strip():
         raise HTTPException(400, "text is empty")
     if req.k < 2 or req.k > len(DOCS) - 1:
         raise HTTPException(400, "k out of range")
-    result = state["cluster_cache"].get(state["doc_embeddings"], DOCS, req.k)
+    result = await state["cluster_cache"].get(state["doc_embeddings"], DOCS, req.k)
     centroids = result["centroids"]
-    v = embed(req.text)
+    v = await embed(req.text)
     centroid_norms = centroids / np.linalg.norm(centroids, axis=1, keepdims=True)
     sims = centroid_norms @ v
     best = int(np.argmax(sims))
